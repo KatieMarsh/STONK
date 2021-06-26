@@ -1,5 +1,5 @@
 # StockPredictor
-it will predict stock price and tell you what to do.
+it will predict stock price(it will deafult to KBANK.BKK stock but if you want you can edit it to do other stock as well).
 There are MANY flaws with my edits so use it at your own risk.
 
 It work by using LSTM and stock indicator(well, so much for that xD) to predict the stock price on close.

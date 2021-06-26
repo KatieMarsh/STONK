@@ -6,4 +6,4 @@ It work by using LSTM and stock indicator(well, so much for that xD) to predict 
 
 The trained model I use is trained with data from 1990-01-01(1st of jan 1990) to 2019-01-01(1st of jan 2019). I evaluate the model with data from 2019-01-02 to 2021-06-25.
 
-From my evaluation Evaluate_model_sma_t3.ipynb was the closest to the correct price(which is still pretty far off) but still it provide some proofs that with the right indicator you can inceases the effectiveness of the model.
+From my evaluation model with SMA and T3 indicators was the closest to the correct price(which is still pretty far off) but still it provide some proofs that with the right indicator you can inceases the effectiveness of the model.

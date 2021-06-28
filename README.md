@@ -4,7 +4,7 @@ There are MANY flaws with my edits so use it at your own risk.
 
 Since this model is a time serie model you have to train for each and every stocks that you want to put in.
 
-It work by using LSTM sotck predictor model [(Original code)](https://github.com/datawiz-thailand/tutorials) and stock indicator(well, so much for that xD) to predict the stock price on close.
+It work by using LSTM sotck predictor model [(Original code)](https://github.com/datawiz-thailand/tutorials) and stock indicator(well, so much for that xD) to predict the stock price on close. (but do be ware if you enter some particular date as input it will creates a bug where true_price is consistently offset)
 
 The trained model I use is trained with data from 1990-01-01(1st of jan 1990) to 2019-01-01(1st of jan 2019). I evaluate the model with data from 2019-01-02 to 2021-06-25.
 

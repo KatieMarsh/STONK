@@ -254,7 +254,7 @@ class StockPredictor(nn.Module):
 
 PATH = './data/model.pth'
 
-gdd.download_file_from_google_drive(file_id='1bvRqfJeAxIUoL2vWpoALm70UpKGI2xOt',
+gdd.download_file_from_google_drive(file_id='1S3RI5qaM8AwOuISFl54Y93Lzt58dj5ZP',
                                     dest_path=PATH,
                                     )
 

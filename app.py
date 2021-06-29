@@ -21,7 +21,7 @@ import datetime
 
 
 # ใส่ title ของ sidebar
-st.sidebar.write('## KBANK.BKK stock predictor (Nvidia GPU required)')
+st.sidebar.write('## KBANK.BKK stock predictor')
 st.sidebar.write('### Enter first and last date for prediction for KBANK.BKK stock')
 first_date = st.sidebar.date_input('First date', datetime.date(2010,6,27))
 last_date = st.sidebar.date_input('Last date', datetime.date(2021,6,27))
@@ -349,9 +349,9 @@ st.write("""
 """)
 st.line_chart(chart_price)
 
-st.write(prev_day_close[-1])
+st.write("SME loss of true price and predicted price")
 
-st.write("loss", F.mse_loss(true_price,pred_price).sqrt())
+st.write(F.mse_loss(true_price,pred_price).sqrt())
 
 st.write("""
 # Suggestion

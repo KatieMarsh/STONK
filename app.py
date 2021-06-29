@@ -1,6 +1,6 @@
 import pandas as pd
 import numpy as np
-import matplotlib.pyplot as plt
+
 from IPython.core.display import display, HTML
 
 from pandas_datareader import data as pdr

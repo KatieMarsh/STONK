@@ -185,7 +185,7 @@ bs = 64
 
 feat_num=8
 test_ds = StockDataset(df_seq_test1, feat_num, seq_len, target_len, df_dt_feat_test)
-test_dl = DataLoader(test_ds, batch_size=bs, shuffle=False)
+test_dl = DataLoader(test_ds, batch_size=len(test_ds), shuffle=False)
 
 config = {'rnn_p':0., 'rnn_l':1, 'rnn_h':1000, 'seq_len':seq_len, 'rnn_input_dim':feat_num, #จำนวน feat ปัจจุบัน ให้ลอง mod ดู
           'fc_szs':[1000, 500],'fc_ps':[0.5, 0.25], 'out_sz':target_len,
@@ -262,19 +262,25 @@ seq_input,cat_input,target = next(iter(test_dl))
 
 
 
-#model = joblib.load('./data/model.pkl')
 device = torch.device(device)
 model = StockPredictor(config,cat_dict)
 model.load_state_dict(torch.load(PATH))
 model.to(device)
 model.eval()
 
-pred_pct = model(seq_input,cat_input)
+pred_pct =torch.empty((1,1), device = device)
+target =torch.empty((1,1), device = device)
+for x in test_dl:
+  seq_input = x[0]
+  cat_input = x[1]
+  target_in = x[2]
+  pred = model(seq_input,cat_input)
+  pred_pct = torch.cat((pred_pct,pred), 0)
+  target = torch.cat((target,target_in), 0)
 
-seq_input,cat_input,target = next(iter(test_dl))
+pred_pct = pred_pct[1:]
+target = target[1:]
 
-# model output
-pred_pct = model(seq_input,cat_input)
 inv_pred_pct = pred_pct*(max_dict['pct_change']-min_dict['pct_change'])+min_dict['pct_change']
 inv_true_pct = target*(max_dict['pct_change']-min_dict['pct_change'])+min_dict['pct_change']
 date_test = date_all[split:]
@@ -310,7 +316,19 @@ st.write("""
 seq_input,cat_input,target = next(iter(test_dl))
 
 # model output
-pred_pct = model(seq_input,cat_input)
+pred_pct =torch.empty((1,1), device = device)
+target =torch.empty((1,1), device = device)
+for x in test_dl:
+  seq_input = x[0]
+  cat_input = x[1]
+  target_in = x[2]
+  pred = model(seq_input,cat_input)
+  pred_pct = torch.cat((pred_pct,pred), 0)
+  target = torch.cat((target,target_in), 0)
+
+pred_pct = pred_pct[1:]
+target = target[1:]
+
 inv_pred_pct = pred_pct*(max_dict['pct_change']-min_dict['pct_change'])+min_dict['pct_change']
 
 # to get real price is to multiply the predicted % with previous day close price

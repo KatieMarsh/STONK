@@ -1,8 +1,6 @@
 import pandas as pd
 import numpy as np
 
-from IPython.core.display import display, HTML
-
 from pandas_datareader import data as pdr
 from tqdm import tqdm_notebook
 import talib

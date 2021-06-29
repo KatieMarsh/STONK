@@ -1,0 +1,8 @@
+streamlit
+pandas
+numpy
+datetime
+googledrivedownloader
+urllib3
+tqdm
+torch==1.9.0

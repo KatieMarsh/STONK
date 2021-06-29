@@ -353,12 +353,13 @@ tensor_Close = tensor_Close.to(device)
 
 df_actual_Close = pd.DataFrame(tensor_Close.cpu().detach().numpy(),
                                               columns =['actual price(from Close in stock_data)'])
-df_true_price = pd.DataFrame(true_price.cpu().detach().numpy(),
-                                              columns =['True price(calculated from %)'])
+#df_true_price = pd.DataFrame(true_price.cpu().detach().numpy(),
+#                                              columns =['True price(calculated from %)'])
 df_pred_price = pd.DataFrame(pred_price.cpu().detach().numpy(),
                                               columns =['Predicted price'])
 
-chart_price = pd.concat([df_actual_Close, df_true_price, df_pred_price], axis=1)
+#chart_price = pd.concat([df_actual_Close, df_true_price, df_pred_price], axis=1)
+chart_price = pd.concat([df_actual_Close, df_pred_price], axis=1)
 chart_price = chart_price.set_index(date_test)
 
 st.write(chart_price)
@@ -370,7 +371,7 @@ st.line_chart(chart_price)
 
 st.write("SME loss of true price and predicted price")
 
-st.write(F.mse_loss(true_price,pred_price).sqrt())
+st.write(F.mse_loss(tensor_Close,pred_price).sqrt())
 
 st.write("""
 # Suggestion

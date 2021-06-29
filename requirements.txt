@@ -1,10 +1,10 @@
 streamlit
-torch==1.9.0
 pandas
 numpy
 TA-Lib
 datetime
 googledrivedownloader
-urllib
+urllib3
 scikit-learn
 tqdm
+torch==1.9.0

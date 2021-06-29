@@ -185,7 +185,7 @@ bs = 64
 
 feat_num=8
 test_ds = StockDataset(df_seq_test1, feat_num, seq_len, target_len, df_dt_feat_test)
-test_dl = DataLoader(test_ds, batch_size=len(test_ds), shuffle=False)
+test_dl = DataLoader(test_ds, batch_size=bs, shuffle=False)
 
 config = {'rnn_p':0., 'rnn_l':1, 'rnn_h':1000, 'seq_len':seq_len, 'rnn_input_dim':feat_num, #จำนวน feat ปัจจุบัน ให้ลอง mod ดู
           'fc_szs':[1000, 500],'fc_ps':[0.5, 0.25], 'out_sz':target_len,

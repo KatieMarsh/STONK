@@ -65,7 +65,6 @@ Send2Trash==1.7.1
 six==1.16.0
 smmap==4.0.0
 streamlit==0.83.0
-TA-Lib @ file:///C:/Users/mnsay/project/TA_Lib-0.4.20-cp39-cp39-win_amd64.whl
 terminado==0.10.1
 testpath==0.5.0
 toml==0.10.2

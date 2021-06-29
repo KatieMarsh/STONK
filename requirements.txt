@@ -1,0 +1,10 @@
+streamlit
+https://download.pytorch.org/whl/torch_stable.html
+pandas
+numpy
+TA-Lib
+datetime
+googledrivedownloader
+urllib
+scikit-learn
+tqdm

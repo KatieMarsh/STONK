@@ -19,8 +19,9 @@ import datetime
 
 
 # ใส่ title ของ sidebar
-st.sidebar.write('## KBANK.BKK stock predictor')
+st.sidebar.write('# KBANK.BKK stock predictor')
 st.sidebar.write('### Enter first and last date for prediction for KBANK.BKK stock')
+st.sidebar.write('### Due to RAM limitation you can only enter date 9 months part at most')
 first_date = st.sidebar.date_input('First date', datetime.date(2020,6,27))
 last_date = st.sidebar.date_input('Last date', datetime.date(2021,6,27))
 st.sidebar.write('If you want a predicted price of today\'s KBANK stock enter the current date.')

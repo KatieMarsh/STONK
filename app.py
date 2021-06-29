@@ -366,4 +366,4 @@ elif true_price[-1] < true_price[-2]:
 else:
     st.write("Today's predicted close price is the same as yesterday, the price might be stabalizing")
 
-
+#yay

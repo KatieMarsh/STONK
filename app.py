@@ -183,7 +183,7 @@ class StockDataset(Dataset):
 seq_len = 30 # ข้อมูล 30 วัน
 target_len = 1
 
-bs = 64
+bs = 16
 
 feat_num=8
 test_ds = StockDataset(df_seq_test1, feat_num, seq_len, target_len, df_dt_feat_test)

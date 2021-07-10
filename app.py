@@ -1,6 +1,8 @@
 import pandas as pd
 import numpy as np
+import yfinance as yf
 
+from datetime import datetime
 from pandas_datareader import data as pdr
 from tqdm import tqdm_notebook
 import talib
@@ -12,7 +14,6 @@ from torch.utils.data import Dataset, DataLoader
 device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
 import urllib.request
 from google_drive_downloader import GoogleDriveDownloader as gdd
-
 
 import streamlit as st
 import datetime
@@ -30,7 +31,7 @@ st.sidebar.write('If you want a predicted price of today\'s KBANK stock enter th
 
 #main
 st.write("""
-# INPUT
+# INPUT DATE
 """
     )
 
@@ -46,9 +47,13 @@ st.write("""
 stock_list = ['KBANK','SCB','BBL','KTB']
 stock_data = []
 stock_name = []
+start1 = datetime.strptime(first_date, '%Y-%m-%d')
+end1 = datetime.strptime(last_date, '%Y-%m-%d')
+
 for quote in tqdm_notebook(stock_list):
     try:
-        stock_data.append(pdr.get_data_yahoo(f'{quote}.BK', start=first_date, end=last_date))
+        #stock_data.append(pdr.get_data_yahoo(f'{quote}.BK', start=first_date, end=last_date))
+        stock_data.append(yf.download(f'{quote}.BK', start=start1, end=end1))
         stock_name.append(quote)
     except:
         print("Error:", sys.exc_info()[0])

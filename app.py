@@ -2,7 +2,6 @@ import pandas as pd
 import numpy as np
 import yfinance as yf
 
-from datetime import datetime
 from pandas_datareader import data as pdr
 from tqdm import tqdm_notebook
 import talib
@@ -47,13 +46,11 @@ st.write("""
 stock_list = ['KBANK','SCB','BBL','KTB']
 stock_data = []
 stock_name = []
-start1 = datetime.strptime(first_date, '%Y-%m-%d')
-end1 = datetime.strptime(last_date, '%Y-%m-%d')
 
 for quote in tqdm_notebook(stock_list):
     try:
         #stock_data.append(pdr.get_data_yahoo(f'{quote}.BK', start=first_date, end=last_date))
-        stock_data.append(yf.download(f'{quote}.BK', start=start1, end=end1))
+        stock_data.append(yf.download(f'{quote}.BK', start=first_date, end=last_date))
         stock_name.append(quote)
     except:
         print("Error:", sys.exc_info()[0])
@@ -188,7 +185,7 @@ class StockDataset(Dataset):
 seq_len = 30 # ข้อมูล 30 วัน
 target_len = 1
 
-bs = 2
+bs = 64
 
 feat_num=8
 test_ds = StockDataset(df_seq_test1, feat_num, seq_len, target_len, df_dt_feat_test)
@@ -287,6 +284,8 @@ for x in test_dl:
 
 pred_pct = pred_pct[1:]
 target = target[1:]
+#fixing the bias
+#pred_pct -= 0.3
 
 inv_pred_pct = pred_pct*(max_dict['pct_change']-min_dict['pct_change'])+min_dict['pct_change']
 inv_true_pct = target*(max_dict['pct_change']-min_dict['pct_change'])+min_dict['pct_change']
@@ -335,16 +334,18 @@ for x in test_dl:
 
 pred_pct = pred_pct[1:]
 target = target[1:]
+#fixing the bias
+#pred_pct -= 0.3
+
 
 inv_pred_pct = pred_pct*(max_dict['pct_change']-min_dict['pct_change'])+min_dict['pct_change']
 
 # to get real price is to multiply the predicted % with previous day close price
 #edit changed seq_input[:,-1,-2] to seq_input[:,-1,-4]
-prev_day_close = seq_input[:,-1,-4]*(max_dict['Adj Close']-min_dict['Adj Close'])+min_dict['Adj Close']
+prev_day_close = seq_input[:,-1,-5]*(max_dict['Adj Close']-min_dict['Adj Close'])+min_dict['Adj Close']
 pred_price = (1+inv_pred_pct.view(-1,))*prev_day_close
 inv_true_pct = target*(max_dict['pct_change']-min_dict['pct_change'])+min_dict['pct_change']
 true_price = (1+inv_true_pct.view(-1,))*prev_day_close
-
 
 
 #grabs the same amount of real price as pred price 
@@ -388,5 +389,3 @@ elif true_price[-1] < true_price[-2]:
     st.write("Today's predicted close price is lower than yesterday, you should wait for the price to go down and buy later.")
 else:
     st.write("Today's predicted close price is the same as yesterday, the price might be stabalizing")
-
-#yay

@@ -110,6 +110,8 @@ def series_to_supervised(data, n_in=1, n_out=1, dropnan=True,feat_name=None):
 
 # เลือกข้อมูลหุ้นจาก list ของ DataFrame และ drop column 'Close' เนื่องจากเราจะใช้ column 'Adj. Close' เท่านั้น
 dataset1 = stock_data1
+dataset1 = dataset1.drop('Adj Close',axis=1)
+dataset1['Adj Close'] = dataset1['Close']
 dataset1 = dataset1.drop('Close',axis=1)
 dataset1['pct_change'] = dataset1['Adj Close'].pct_change().dropna()
 values1 = dataset1.values
@@ -342,7 +344,7 @@ inv_pred_pct = pred_pct*(max_dict['pct_change']-min_dict['pct_change'])+min_dict
 
 # to get real price is to multiply the predicted % with previous day close price
 #edit changed seq_input[:,-1,-2] to seq_input[:,-1,-4]
-prev_day_close = seq_input[:,-1,-5]*(max_dict['Adj Close']-min_dict['Adj Close'])+min_dict['Adj Close']
+prev_day_close = seq_input[:,-1,-2]*(max_dict['Adj Close']-min_dict['Adj Close'])+min_dict['Adj Close']
 pred_price = (1+inv_pred_pct.view(-1,))*prev_day_close
 inv_true_pct = target*(max_dict['pct_change']-min_dict['pct_change'])+min_dict['pct_change']
 true_price = (1+inv_true_pct.view(-1,))*prev_day_close

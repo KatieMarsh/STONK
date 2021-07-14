@@ -259,8 +259,10 @@ class StockPredictor(nn.Module):
     return res
 
 PATH = './data/model.pth'
-
-gdd.download_file_from_google_drive(file_id='1S3RI5qaM8AwOuISFl54Y93Lzt58dj5ZP',
+#1S3RI5qaM8AwOuISFl54Y93Lzt58dj5ZP = model2.pth
+#1L-_b91aaINL3xZY3hfttQ1Cbfdz1rgTL = model4.pth
+#1LAnnX_Kj8y0W2nnFKmm8q-ok3HL1dmfN = model5.pth
+gdd.download_file_from_google_drive(file_id='1LAnnX_Kj8y0W2nnFKmm8q-ok3HL1dmfN',
                                     dest_path=PATH,
                                     )
 
@@ -274,20 +276,22 @@ model.load_state_dict(torch.load(PATH))
 model.to(device)
 model.eval()
 
-pred_pct =torch.empty((1,1), device = device)
-target =torch.empty((1,1), device = device)
-for x in test_dl:
-  seq_input = x[0]
-  cat_input = x[1]
-  target_in = x[2]
-  pred = model(seq_input,cat_input)
-  pred_pct = torch.cat((pred_pct,pred), 0)
-  target = torch.cat((target,target_in), 0)
+#pred_pct =torch.empty((1,1), device = device)
+#target =torch.empty((1,1), device = device)
+#for x in test_dl:
+#  seq_input = x[0]
+#  cat_input = x[1]
+#  target_in = x[2]
+#  pred = model(seq_input,cat_input)
+#  pred_pct = torch.cat((pred_pct,pred), 0)
+#  target = torch.cat((target,target_in), 0)
 
-pred_pct = pred_pct[1:]
-target = target[1:]
-#fixing the bias
-#pred_pct -= 0.3
+#pred_pct = pred_pct[1:]
+#target = target[1:]
+
+seq_input,cat_input,target = next(iter(test_dl))
+
+pred_pct = model(seq_input,cat_input)
 
 inv_pred_pct = pred_pct*(max_dict['pct_change']-min_dict['pct_change'])+min_dict['pct_change']
 inv_true_pct = target*(max_dict['pct_change']-min_dict['pct_change'])+min_dict['pct_change']
@@ -313,9 +317,6 @@ st.write("""
 st.line_chart(chart_percent)
 
 
-
-
-
 # convert to price plot
 st.write("""
 # Price Prediction
@@ -336,8 +337,7 @@ for x in test_dl:
 
 pred_pct = pred_pct[1:]
 target = target[1:]
-#fixing the bias
-#pred_pct -= 0.3
+
 
 
 inv_pred_pct = pred_pct*(max_dict['pct_change']-min_dict['pct_change'])+min_dict['pct_change']
